@@ -1,0 +1,23 @@
+/* Get all Streets */
+router.get('/', function (req, res) {
+    pg.connect(conString, function (err, client, done) {
+        if (err) {
+            return console.error('Error fetching client from pool', err);
+        }
+        client.query('SELECT usrn, roadname, description, town, dft_no, adoption_status, street_type, open, notes, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS geom from herefordshire.lsg', function (err, result) {
+            dbgeo.parse({
+                "data": result.rows,
+                "outputFormat": "geojson",
+                "geometryColumn": "geom",
+                "callback": function(error, result) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        // This will log a valid GeoJSON object
+                        res.jsonp(result);
+                    }   
+                }
+            });
+        });
+    });
+})
