@@ -7,7 +7,6 @@ var credentials = require("../credentials");
 var url = require('url');
 
 var credentials = credentials.live;
-
 var conString = "postgres://" + credentials.user + "@" + credentials.host + ":" + credentials.port + "/" + credentials.database;
 
 /* GET Results */
@@ -24,19 +23,7 @@ router.get('/', function (req, res) {
         	result.addRow(row);
         });
         query.on('end', function(result){
-				dbgeo.parse({
-                    "data": result.rows,
-                    "outputFormat": "geojson",
-                    "geometryColumn": "geom",
-                    "callback": function (error, result) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            // This will log a valid GeoJSON object
-                            res.jsonp(result);
-                        }
-                    }
-                });
+            res.send(result.rows);
         	console.log(result.rows.length + 'rows were received');
         });
     });    
