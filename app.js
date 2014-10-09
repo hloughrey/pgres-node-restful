@@ -8,9 +8,6 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var accidents = require('./routes/accidents');
 var lsg = require('./routes/lsg');
-var lsgbybbox =require('./routes/lsgbybbox');
-var lsgStream = require('./routes/lsgStream');
-var geo = require('./routes/geo');
 var users = require('./routes/users');
 
 var app = express();
@@ -31,9 +28,6 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/accidents', accidents);
 app.use('/lsg', lsg);
-app.use('/lsgbybbox', lsgbybbox);
-app.use('/lsgStream', lsgStream);
-app.use('/geo', geo);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
